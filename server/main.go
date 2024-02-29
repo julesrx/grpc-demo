@@ -39,6 +39,16 @@ func (s *server) GetMatchById(ctx context.Context, in *pb.GetMatchByIdRequest) (
 	return match, nil
 }
 
+func (s *server) GetMatchesByIds(ctx context.Context, in *pb.GetMatchesByIdsRequest) (*pb.GetMatchesByIdsResponse, error) {
+	matches := []*pb.GetMatchByIdResponse{}
+
+	for _, id := range in.GetIds() {
+		matches = append(matches, &pb.GetMatchByIdResponse{Id: id, Name: "My match", CompetitionId: 763})
+	}
+
+	return &pb.GetMatchesByIdsResponse{Matches: matches}, nil
+}
+
 func main() {
 	flag.Parse()
 

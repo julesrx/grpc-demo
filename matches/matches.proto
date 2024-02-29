@@ -6,28 +6,31 @@ option go_package = "main/matches";
 
 // Service
 service Matches {
-    rpc CreateMatch (CreateMatchRequest) returns (CreateMatchResponse) {}
-    rpc UpdateMatch (UpdateMatchRequest) returns (google.protobuf.Empty) {}
-    rpc GetMatchById (GetMatchByIdRequest) returns (GetMatchByIdResponse) {}
-    
-    // rpc GetMatchesByIds (GetMatchesByIdsRequest) returns (GetMatchesByIdsResponse) {}
-    // rpc GetMatchesByCompetitionId (GetMatchesByCompetitionIdRequest) returns (GetMatchesByCompetitionIdResponse) {}
+    rpc CreateMatch(CreateMatchRequest) returns (CreateMatchResponse) {}
+    rpc UpdateMatch(UpdateMatchRequest) returns (google.protobuf.Empty) {}
+    rpc GetMatchById(GetMatchByIdRequest) returns (GetMatchByIdResponse) {}
+    rpc GetMatchesByIds(GetMatchesByIdsRequest)
+        returns (GetMatchesByIdsResponse) {}
 }
 
 // Requests
 message CreateMatchRequest {
-    string name = 1;
+    string name          = 1;
     int32 competition_id = 2;
 }
 
 message UpdateMatchRequest {
-    int32 id = 1;
-    optional string name = 2;
+    int32 id                      = 1;
+    optional string name          = 2;
     optional int32 competition_id = 3;
 }
 
 message GetMatchByIdRequest {
     int32 id = 1;
+}
+
+message GetMatchesByIdsRequest {
+    repeated int32 ids = 1;
 }
 
 // Responses
@@ -36,7 +39,11 @@ message CreateMatchResponse {
 }
 
 message GetMatchByIdResponse {
-    int32 id = 1;
-    string name = 2;
+    int32 id             = 1;
+    string name          = 2;
     int32 competition_id = 3;
+}
+
+message GetMatchesByIdsResponse {
+    repeated GetMatchByIdResponse matches = 1;
 }

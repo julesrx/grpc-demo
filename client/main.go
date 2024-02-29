@@ -52,4 +52,11 @@ func main() {
 	}
 
 	log.Printf("%v", match)
+
+	matches, err := client.GetMatchesByIds(ctx, &pb.GetMatchesByIdsRequest{Ids: []int32{4747, 2774, 884}})
+	if err != nil {
+		log.Fatalf("could not get match: %v", err)
+	}
+
+	log.Printf("%v", matches)
 }
