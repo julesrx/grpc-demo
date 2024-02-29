@@ -1,22 +1,32 @@
 syntax = "proto3";
-// import "google/protobuf/empty.proto";
+
+import "google/protobuf/empty.proto";
 
 option go_package = "main/matches";
 
+// Service
 service Matches {
     rpc CreateMatch (CreateMatchRequest) returns (CreateMatchResponse) {}
-    // rpc UpdateMatch (UpdateMatchRequest) returns (google.protobuf.Empty) {}
+    rpc UpdateMatch (UpdateMatchRequest) returns (google.protobuf.Empty) {}
     // rpc GetMatchById (GetMatchByIdRequest) returns (GetMatchByIdResponse) {}
     
     // rpc GetMatchesByIds (GetMatchesByIdsRequest) returns (GetMatchesByIdsResponse) {}
     // rpc GetMatchesByCompetitionId (GetMatchesByCompetitionIdRequest) returns (GetMatchesByCompetitionIdResponse) {}
 }
 
+// Requests
 message CreateMatchRequest {
     string name = 1;
     int32 competition_id = 2;
 }
 
+message UpdateMatchRequest {
+    int32 id = 1;
+    optional string name = 2;
+    optional int32 competition_id = 3;
+}
+
+// Responses
 message CreateMatchResponse {
     int32 id = 1;
 }

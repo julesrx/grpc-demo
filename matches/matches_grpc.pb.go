@@ -8,6 +8,7 @@ package matches
 
 import (
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -23,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MatchesClient interface {
 	CreateMatch(ctx context.Context, in *CreateMatchRequest, opts ...grpc.CallOption) (*CreateMatchResponse, error)
+	UpdateMatch(ctx context.Context, in *UpdateMatchRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type matchesClient struct {
@@ -42,11 +44,21 @@ func (c *matchesClient) CreateMatch(ctx context.Context, in *CreateMatchRequest,
 	return out, nil
 }
 
+func (c *matchesClient) UpdateMatch(ctx context.Context, in *UpdateMatchRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/Matches/UpdateMatch", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MatchesServer is the server API for Matches service.
 // All implementations must embed UnimplementedMatchesServer
 // for forward compatibility
 type MatchesServer interface {
 	CreateMatch(context.Context, *CreateMatchRequest) (*CreateMatchResponse, error)
+	UpdateMatch(context.Context, *UpdateMatchRequest) (*empty.Empty, error)
 	mustEmbedUnimplementedMatchesServer()
 }
 
@@ -56,6 +68,9 @@ type UnimplementedMatchesServer struct {
 
 func (UnimplementedMatchesServer) CreateMatch(context.Context, *CreateMatchRequest) (*CreateMatchResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateMatch not implemented")
+}
+func (UnimplementedMatchesServer) UpdateMatch(context.Context, *UpdateMatchRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateMatch not implemented")
 }
 func (UnimplementedMatchesServer) mustEmbedUnimplementedMatchesServer() {}
 
@@ -88,6 +103,24 @@ func _Matches_CreateMatch_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Matches_UpdateMatch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateMatchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MatchesServer).UpdateMatch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Matches/UpdateMatch",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MatchesServer).UpdateMatch(ctx, req.(*UpdateMatchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Matches_ServiceDesc is the grpc.ServiceDesc for Matches service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +131,10 @@ var Matches_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateMatch",
 			Handler:    _Matches_CreateMatch_Handler,
+		},
+		{
+			MethodName: "UpdateMatch",
+			Handler:    _Matches_UpdateMatch_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

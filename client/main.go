@@ -34,8 +34,15 @@ func main() {
 
 	res, err := client.CreateMatch(ctx, &pb.CreateMatchRequest{Name: "PSG - OM", CompetitionId: 5})
 	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+		log.Fatalf("could create message: %v", err)
 	}
 
-	log.Printf("MatchId: %d", res.GetId())
+	matchId := res.GetId()
+	log.Printf("MatchId: %d", matchId)
+
+	newName := "Heyy boi"
+	_, err = client.UpdateMatch(ctx, &pb.UpdateMatchRequest{Id: matchId, Name: &newName})
+	if err != nil {
+		log.Fatalf("could not update message: %v", err)
+	}
 }

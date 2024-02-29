@@ -9,21 +9,29 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 var (
 	port = flag.Int("port", 50051, "The server port")
 )
 
-// server is used to implement helloworld.GreeterServer.
 type server struct {
 	pb.UnimplementedMatchesServer
 }
 
-// CreateMatch implements helloworld.GreeterServer
 func (s *server) CreateMatch(ctx context.Context, in *pb.CreateMatchRequest) (*pb.CreateMatchResponse, error) {
 	log.Printf("Received: %v", in.GetName())
 	return &pb.CreateMatchResponse{Id: 645}, nil
+}
+
+func (s *server) UpdateMatch(ctx context.Context, in *pb.UpdateMatchRequest) (*emptypb.Empty, error) {
+	if in.Name == nil && in.CompetitionId == nil {
+		return nil, fmt.Errorf("you must provide at least one parameter")
+	}
+
+	log.Printf("Received: %s %d", in.GetName(), in.GetCompetitionId())
+	return &emptypb.Empty{}, nil
 }
 
 func main() {
