@@ -34,6 +34,11 @@ func (s *server) UpdateMatch(ctx context.Context, in *pb.UpdateMatchRequest) (*e
 	return &emptypb.Empty{}, nil
 }
 
+func (s *server) GetMatchById(ctx context.Context, in *pb.GetMatchByIdRequest) (*pb.GetMatchByIdResponse, error) {
+	match := &pb.GetMatchByIdResponse{Id: in.GetId(), Name: "My match", CompetitionId: 763}
+	return match, nil
+}
+
 func main() {
 	flag.Parse()
 
