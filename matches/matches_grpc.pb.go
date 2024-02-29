@@ -8,7 +8,6 @@ package matches
 
 import (
 	context "context"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -23,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MatchesClient interface {
-	CreateMatch(ctx context.Context, in *CreateMatchRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	CreateMatch(ctx context.Context, in *CreateMatchRequest, opts ...grpc.CallOption) (*CreateMatchResponse, error)
 }
 
 type matchesClient struct {
@@ -34,8 +33,8 @@ func NewMatchesClient(cc grpc.ClientConnInterface) MatchesClient {
 	return &matchesClient{cc}
 }
 
-func (c *matchesClient) CreateMatch(ctx context.Context, in *CreateMatchRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *matchesClient) CreateMatch(ctx context.Context, in *CreateMatchRequest, opts ...grpc.CallOption) (*CreateMatchResponse, error) {
+	out := new(CreateMatchResponse)
 	err := c.cc.Invoke(ctx, "/Matches/CreateMatch", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -47,7 +46,7 @@ func (c *matchesClient) CreateMatch(ctx context.Context, in *CreateMatchRequest,
 // All implementations must embed UnimplementedMatchesServer
 // for forward compatibility
 type MatchesServer interface {
-	CreateMatch(context.Context, *CreateMatchRequest) (*empty.Empty, error)
+	CreateMatch(context.Context, *CreateMatchRequest) (*CreateMatchResponse, error)
 	mustEmbedUnimplementedMatchesServer()
 }
 
@@ -55,7 +54,7 @@ type MatchesServer interface {
 type UnimplementedMatchesServer struct {
 }
 
-func (UnimplementedMatchesServer) CreateMatch(context.Context, *CreateMatchRequest) (*empty.Empty, error) {
+func (UnimplementedMatchesServer) CreateMatch(context.Context, *CreateMatchRequest) (*CreateMatchResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateMatch not implemented")
 }
 func (UnimplementedMatchesServer) mustEmbedUnimplementedMatchesServer() {}
