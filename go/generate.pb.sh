@@ -1,5 +1,7 @@
 #!/bin/sh
 
+rm -rf ./matches/*.go
+
 protoc \
     --go_out=./matches \
     --go-grpc_out=./matches \
