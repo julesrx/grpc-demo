@@ -1,13 +1,15 @@
 {
-  "scripts": {
-    "generate": "./generate.pb.sh"
-  },
-  "dependencies": {
-    "@grpc/grpc-js": "^1.10.1",
-    "google-protobuf": "^3.21.2"
-  },
-  "devDependencies": {
-    "grpc_tools_node_protoc_ts": "^5.3.3",
-    "grpc-tools": "^1.12.4"
-  }
+    "scripts": {
+        "client": "node ./client/main.mjs",
+        "server": "node ./server/main.mjs",
+        "generate": "./generate.pb.sh"
+    },
+    "dependencies": {
+        "@grpc/grpc-js": "^1.10.1",
+        "google-protobuf": "^3.21.2"
+    },
+    "devDependencies": {
+        "grpc_tools_node_protoc_ts": "^5.3.3",
+        "grpc-tools": "^1.12.4"
+    }
 }
