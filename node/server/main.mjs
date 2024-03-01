@@ -5,7 +5,7 @@ import pb from '../matches/matches_pb.js';
 
 /** @type {import('../matches/matches_grpc_pb.js').IMatchesServer} */
 const impl = {
-    getMatchById: (call, callback) => {
+    getMatchById: (_, callback) => {
         const response = new pb.GetMatchByIdResponse();
         response.setId(7636);
         response.setName('France - Belgique');
