@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.12.4
-// source: matches/matches.proto
+// source: matches.proto
 
 package matches
 
@@ -210,5 +210,5 @@ var Matches_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "matches/matches.proto",
+	Metadata: "matches.proto",
 }
